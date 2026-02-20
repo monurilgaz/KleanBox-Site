@@ -11,227 +11,718 @@
     <meta property="og:url" content="https://kleanbox.app">
     <link rel="canonical" href="https://kleanbox.app">
     <style>
+        :root {
+            --accent: #6C5CE7;
+            --accent-light: #A29BFE;
+            --dark: #0B0D17;
+            --dark-2: #121425;
+            --dark-3: #1A1D2E;
+            --gray-1: #8892B0;
+            --gray-2: #A8B2D1;
+            --white: #E6F1FF;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-            color: #1d1d1f;
-            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            color: var(--white);
+            background: var(--dark);
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 24px;
+        /* ── Animations ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
-
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 80px 0 48px;
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
 
-        .hero .icon {
-            width: 100px;
-            height: 100px;
-            border-radius: 22px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-        }
-
-        .hero h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin: 24px 0 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .hero .tagline {
-            font-size: 18px;
-            color: #6e6e73;
-        }
-
-        .hero .description {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #424245;
-            margin: 24px auto 0;
-            max-width: 540px;
-        }
-
-        .app-store-btn {
-            display: inline-block;
-            margin-top: 32px;
-        }
-
-        .app-store-btn img {
-            height: 48px;
-        }
-
-        /* Divider */
-        hr {
-            border: none;
-            border-top: 1px solid #e5e5e7;
-            margin: 48px 0;
-        }
-
-        /* Features */
-        .features-title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 36px;
-            letter-spacing: -0.3px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 32px;
-        }
-
-        .feature {
-            text-align: center;
-        }
-
-        .feature .emoji {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-
-        .feature h3 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .feature p {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #6e6e73;
-        }
-
-        /* Contact */
-        .contact {
-            text-align: center;
-            padding-bottom: 64px;
-        }
-
-        .contact h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -0.3px;
-        }
-
-        .contact .social-name {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .contact .email {
-            display: inline-block;
-            font-size: 15px;
-            color: #0071e3;
-            text-decoration: none;
-            margin-bottom: 20px;
-        }
-
-        .contact .email:hover { text-decoration: underline; }
-
-        .socials {
+        /* ── Navbar ── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 32px;
+            height: 64px;
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(11, 13, 23, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: background 0.3s;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--white);
+        }
+        .nav-brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+        .nav-brand span {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--gray-1);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            background: var(--accent);
+            color: #fff !important;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .nav-cta:hover {
+            background: #5A4BD1;
+            transform: translateY(-1px);
         }
 
-        .socials a {
+        /* ── Language toggle ── */
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .lang-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-1);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-family: inherit;
+        }
+        .lang-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 160px 24px 120px;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.2) 0%, rgba(108, 92, 231, 0.05) 40%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(108, 92, 231, 0.15);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-light);
+            margin-bottom: 32px;
+        }
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+        .hero-icon {
+            width: 88px;
+            height: 88px;
+            border-radius: 22px;
+            box-shadow: 0 20px 60px rgba(108, 92, 231, 0.3), 0 4px 16px rgba(0, 0, 0, 0.3);
+            margin-bottom: 36px;
+        }
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            max-width: 700px;
+            margin: 0 auto 24px;
+        }
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-light) 0%, #74b9ff 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 19px;
+            line-height: 1.7;
+            color: var(--gray-1);
+            max-width: 520px;
+            margin: 0 auto 44px;
+        }
+        .hero-actions {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f5f5f7;
-            color: #1d1d1f;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 12px;
             text-decoration: none;
-            transition: background 0.2s;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 24px rgba(108, 92, 231, 0.4);
+        }
+        .btn-primary:hover {
+            background: #5A4BD1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(108, 92, 231, 0.5);
+        }
+        .btn-primary svg { width: 18px; height: 18px; fill: currentColor; }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
-        .socials a:hover { background: #e8e8ed; }
+        /* ── Social proof ── */
+        .social-proof {
+            text-align: center;
+            padding: 0 24px 80px;
+        }
+        .proof-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+        .proof-stat {
+            text-align: center;
+        }
+        .proof-stat .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+        .proof-stat .label {
+            font-size: 13px;
+            color: var(--gray-1);
+            margin-top: 4px;
+        }
 
-        .socials svg {
-            width: 18px;
-            height: 18px;
+        /* ── Section layout ── */
+        .section {
+            padding: 100px 24px;
+            position: relative;
+        }
+        .section-alt {
+            background: var(--dark-2);
+        }
+        .section-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        .section-label {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--gray-1);
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* ── Features grid ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            padding: 32px 28px;
+            background: var(--dark-3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.3s,
+                        box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108, 92, 231, 0.3);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .fi-purple { background: rgba(108, 92, 231, 0.15); }
+        .fi-blue { background: rgba(116, 185, 255, 0.15); }
+        .fi-green { background: rgba(0, 206, 158, 0.15); }
+        .fi-orange { background: rgba(253, 203, 110, 0.15); }
+        .fi-red { background: rgba(255, 107, 107, 0.15); }
+        .fi-teal { background: rgba(0, 184, 212, 0.15); }
+        .feature-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+        .feature-card p {
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--gray-1);
+        }
+
+        /* ── How it works ── */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .step {
+            position: relative;
+            text-align: center;
+        }
+        .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 32px rgba(108, 92, 231, 0.3);
+        }
+        .step h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+        .step p {
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--gray-1);
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* ── Privacy section ── */
+        .privacy-banner {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            padding: 48px 56px;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.08), rgba(0, 206, 158, 0.06));
+            border: 1px solid rgba(108, 92, 231, 0.15);
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .privacy-icon {
+            font-size: 56px;
+            flex-shrink: 0;
+        }
+        .privacy-banner h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+        .privacy-banner p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--gray-2);
+        }
+
+        /* ── CTA section ── */
+        .cta-section {
+            text-align: center;
+            padding: 100px 24px 120px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-section h2 {
+            font-size: 44px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 17px;
+            color: var(--gray-1);
+            margin-bottom: 36px;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 48px 24px;
+        }
+        .footer-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .footer-left img {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+        }
+        .footer-left span {
+            font-size: 14px;
+            color: var(--gray-1);
+        }
+        .footer-center {
+            font-size: 13px;
+            color: var(--gray-1);
+            opacity: 0.6;
+        }
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+        .footer-socials a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--gray-1);
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s;
+        }
+        .footer-socials a:hover {
+            background: rgba(108, 92, 231, 0.15);
+            border-color: rgba(108, 92, 231, 0.3);
+            color: var(--accent-light);
+            transform: translateY(-2px);
+        }
+        .footer-socials svg {
+            width: 16px;
+            height: 16px;
             fill: currentColor;
         }
 
-        @media (max-width: 600px) {
-            .hero { padding: 56px 0 36px; }
-            .hero h1 { font-size: 28px; }
-            .hero .tagline { font-size: 16px; }
-            .features { grid-template-columns: 1fr; gap: 28px; }
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .nav { padding: 0 16px; }
+            .nav-links { gap: 12px; }
+            .nav-links .nav-link-item { display: none; }
+            .hero { padding: 120px 20px 80px; }
+            .hero h1 { font-size: 36px; letter-spacing: -1px; }
+            .hero-sub { font-size: 16px; }
+            .hero-icon { width: 72px; height: 72px; border-radius: 18px; }
+            .section { padding: 72px 20px; }
+            .section-title { font-size: 28px; }
+            .features-grid { grid-template-columns: 1fr; gap: 16px; }
+            .steps { grid-template-columns: 1fr; gap: 32px; }
+            .privacy-banner { flex-direction: column; text-align: center; padding: 36px 28px; gap: 24px; }
+            .proof-stats { gap: 32px; }
+            .cta-section h2 { font-size: 30px; }
+            .footer-inner { justify-content: center; text-align: center; }
+            .hero-actions { flex-direction: column; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; max-width: 280px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <section class="hero">
-        <img class="icon" src="icon.png" alt="KleanBox App Icon" width="100" height="100">
-        <h1>KleanBox</h1>
-        <p class="tagline">SMS Spam Blocker for iPhone</p>
-        <p class="description">KleanBox filters SMS messages from unknown senders, keeping your inbox clean and organized. Create custom rules or let Smart Filtering automatically classify spam, promotions, OTPs, and more.</p>
-        <a class="app-store-btn" href="https://apps.apple.com/app/kleanbox/id6759303859">
-            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store">
-        </a>
-    </section>
+<!-- Navbar -->
+<nav class="nav">
+    <a class="nav-brand" href="#">
+        <img src="icon.png" alt="KleanBox">
+        <span>KleanBox</span>
+    </a>
+    <ul class="nav-links">
+        <li class="nav-link-item"><a href="#features" data-i18n="nav.features">Features</a></li>
+        <li class="nav-link-item"><a href="#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+        <li class="nav-link-item"><a href="#privacy" data-i18n="nav.privacy">Privacy</a></li>
+        <li>
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="tr">TR</button>
+            </div>
+        </li>
+        <li><a href="https://apps.apple.com/app/kleanbox/id6759303859" class="nav-cta">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span data-i18n="nav.download">Download</span>
+        </a></li>
+    </ul>
+</nav>
 
-    <hr>
-
-    <h2 class="features-title">Features</h2>
-
-    <div class="features">
-        <div class="feature">
-            <div class="emoji">&#128221;</div>
-            <h3>Custom Rules</h3>
-            <p>Create keyword or regex-based filter rules. Match by message content, sender, or both.</p>
-        </div>
-        <div class="feature">
-            <div class="emoji">&#129504;</div>
-            <h3>Smart Filtering</h3>
-            <p>Community-maintained filter definitions automatically classify messages when your rules don't match.</p>
-        </div>
-        <div class="feature">
-            <div class="emoji">&#128193;</div>
-            <h3>Organized Categories</h3>
-            <p>Messages are sorted into Spam, Promotions, OTP, and Transactions automatically.</p>
-        </div>
-        <div class="feature">
-            <div class="emoji">&#128274;</div>
-            <h3>Privacy First</h3>
-            <p>Everything runs locally on your device. Your messages never leave your phone.</p>
-        </div>
-        <div class="feature">
-            <div class="emoji">&#9881;&#65039;</div>
-            <h3>Full Control</h3>
-            <p>Toggle categories, enable or disable rules, and preview filters before saving.</p>
-        </div>
-        <div class="feature">
-            <div class="emoji">&#128640;</div>
-            <h3>Easy Setup</h3>
-            <p>Guided onboarding walks you through enabling the filter in just a few taps.</p>
+<!-- Hero -->
+<section class="hero">
+    <div class="reveal">
+        <div class="hero-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <span data-i18n="hero.badge">Available on the App Store</span>
         </div>
     </div>
+    <div class="reveal reveal-delay-1">
+        <img class="hero-icon" src="icon.png" alt="KleanBox App Icon" width="88" height="88">
+    </div>
+    <h1 class="reveal reveal-delay-2" data-i18n-html="hero.title">
+        Take back your<br><span class="gradient-text">SMS inbox</span>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-3" data-i18n="hero.sub">
+        KleanBox filters spam, promotions, and unwanted messages from unknown senders. Custom rules and smart filtering keep your inbox clean.
+    </p>
+    <div class="hero-actions reveal reveal-delay-4">
+        <a class="btn-primary" href="https://apps.apple.com/app/kleanbox/id6759303859">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span data-i18n="hero.downloadBtn">Download for iPhone</span>
+        </a>
+        <a class="btn-secondary" href="#features" data-i18n="hero.learnMore">Learn more</a>
+    </div>
+</section>
 
-    <hr>
+<!-- Social Proof -->
+<div class="social-proof reveal">
+    <div class="proof-stats">
+        <div class="proof-stat">
+            <div class="number">100%</div>
+            <div class="label" data-i18n="proof.onDevice">On-device processing</div>
+        </div>
+        <div class="proof-stat">
+            <div class="number">4</div>
+            <div class="label" data-i18n="proof.categories">Smart categories</div>
+        </div>
+        <div class="proof-stat">
+            <div class="number">0</div>
+            <div class="label" data-i18n="proof.dataCollected">Data collected</div>
+        </div>
+    </div>
+</div>
 
-    <section class="contact">
-        <h2>Contact</h2>
-        <a class="email" href="mailto:support@kleanbox.app">support@kleanbox.app</a>
-        <p class="social-name">Mustafa Onur ILGAZ</p>
-        <div class="socials">
+<!-- Features -->
+<section class="section section-alt" id="features">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <span class="section-label" data-i18n="features.label">Features</span>
+            <h2 class="section-title" data-i18n-html="features.title">Everything you need to<br>filter the noise</h2>
+            <p class="section-desc" data-i18n="features.desc">Powerful filtering tools that work together to keep unwanted messages out of your inbox.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon fi-purple">&#128221;</div>
+                <h3 data-i18n="features.customRules.title">Custom Rules</h3>
+                <p data-i18n="features.customRules.desc">Create keyword or regex-based filter rules. Match by message content, sender, or both.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon fi-blue">&#129504;</div>
+                <h3 data-i18n="features.smartFilter.title">Smart Filtering</h3>
+                <p data-i18n="features.smartFilter.desc">Community-maintained filter definitions automatically classify messages when your rules don't match.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <div class="feature-icon fi-green">&#128193;</div>
+                <h3 data-i18n="features.autoCategories.title">Auto Categories</h3>
+                <p data-i18n="features.autoCategories.desc">Messages are sorted into Spam, Promotions, OTP, and Transactions automatically.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <div class="feature-icon fi-orange">&#9881;&#65039;</div>
+                <h3 data-i18n="features.fullControl.title">Full Control</h3>
+                <p data-i18n="features.fullControl.desc">Toggle categories, enable or disable rules, and preview filters before saving.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-4">
+                <div class="feature-icon fi-red">&#128274;</div>
+                <h3 data-i18n="features.privacy.title">Privacy First</h3>
+                <p data-i18n="features.privacy.desc">Everything runs locally on your device. Your messages never leave your phone.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-5">
+                <div class="feature-icon fi-teal">&#128640;</div>
+                <h3 data-i18n="features.easySetup.title">Easy Setup</h3>
+                <p data-i18n="features.easySetup.desc">Guided onboarding walks you through enabling the filter in just a few taps.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="section" id="how-it-works">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <span class="section-label" data-i18n="steps.label">How It Works</span>
+            <h2 class="section-title" data-i18n="steps.title">Up and running in minutes</h2>
+            <p class="section-desc" data-i18n="steps.desc">Three simple steps to a cleaner SMS inbox.</p>
+        </div>
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-number">1</div>
+                <h3 data-i18n="steps.step1.title">Install & Enable</h3>
+                <p data-i18n="steps.step1.desc">Download KleanBox and follow the guided setup to enable SMS filtering in your iPhone settings.</p>
+            </div>
+            <div class="step reveal reveal-delay-2">
+                <div class="step-number">2</div>
+                <h3 data-i18n="steps.step2.title">Set Your Rules</h3>
+                <p data-i18n="steps.step2.desc">Create custom filters or let Smart Filtering do the work with community-driven definitions.</p>
+            </div>
+            <div class="step reveal reveal-delay-4">
+                <div class="step-number">3</div>
+                <h3 data-i18n="steps.step3.title">Enjoy the Silence</h3>
+                <p data-i18n="steps.step3.desc">Spam and promotions are filtered away. Important messages stay right where they belong.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Privacy -->
+<section class="section section-alt" id="privacy">
+    <div class="section-inner">
+        <div class="privacy-banner reveal">
+            <div class="privacy-icon">&#128737;</div>
+            <div>
+                <h3 data-i18n="privacy.title">Your messages stay on your device</h3>
+                <p data-i18n="privacy.desc">KleanBox processes everything locally using Apple's SMS filtering framework. No messages are ever sent to external servers. No accounts, no tracking, no data collection. Your privacy isn't a feature — it's the foundation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2 class="reveal" data-i18n="cta.title">Ready for a cleaner inbox?</h2>
+    <p class="reveal reveal-delay-1" data-i18n="cta.desc">Free to download. No subscriptions. No sign-up required.</p>
+    <div class="reveal reveal-delay-2">
+        <a class="btn-primary" href="https://apps.apple.com/app/kleanbox/id6759303859">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span data-i18n="hero.downloadBtn">Download for iPhone</span>
+        </a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <img src="icon.png" alt="KleanBox" width="28" height="28">
+            <span>KleanBox</span>
+        </div>
+        <div class="footer-center">
+            <a href="mailto:support@kleanbox.app" style="color: var(--gray-1); text-decoration: none;">support@kleanbox.app</a>
+        </div>
+        <div class="footer-socials">
             <a href="https://x.com/mstfonr" aria-label="X (Twitter)">
                 <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
@@ -242,8 +733,145 @@
                 <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
         </div>
-    </section>
-</div>
+    </div>
+</footer>
+
+<script>
+const i18n = {
+    en: {
+        "nav.features": "Features",
+        "nav.howItWorks": "How It Works",
+        "nav.privacy": "Privacy",
+        "nav.download": "Download",
+        "hero.badge": "Available on the App Store",
+        "hero.title": 'Take back your<br><span class="gradient-text">SMS inbox</span>',
+        "hero.sub": "KleanBox filters spam, promotions, and unwanted messages from unknown senders. Custom rules and smart filtering keep your inbox clean.",
+        "hero.downloadBtn": "Download for iPhone",
+        "hero.learnMore": "Learn more",
+        "proof.onDevice": "On-device processing",
+        "proof.categories": "Smart categories",
+        "proof.dataCollected": "Data collected",
+        "features.label": "Features",
+        "features.title": "Everything you need to<br>filter the noise",
+        "features.desc": "Powerful filtering tools that work together to keep unwanted messages out of your inbox.",
+        "features.customRules.title": "Custom Rules",
+        "features.customRules.desc": "Create keyword or regex-based filter rules. Match by message content, sender, or both.",
+        "features.smartFilter.title": "Smart Filtering",
+        "features.smartFilter.desc": "Community-maintained filter definitions automatically classify messages when your rules don't match.",
+        "features.autoCategories.title": "Auto Categories",
+        "features.autoCategories.desc": "Messages are sorted into Spam, Promotions, OTP, and Transactions automatically.",
+        "features.fullControl.title": "Full Control",
+        "features.fullControl.desc": "Toggle categories, enable or disable rules, and preview filters before saving.",
+        "features.privacy.title": "Privacy First",
+        "features.privacy.desc": "Everything runs locally on your device. Your messages never leave your phone.",
+        "features.easySetup.title": "Easy Setup",
+        "features.easySetup.desc": "Guided onboarding walks you through enabling the filter in just a few taps.",
+        "steps.label": "How It Works",
+        "steps.title": "Up and running in minutes",
+        "steps.desc": "Three simple steps to a cleaner SMS inbox.",
+        "steps.step1.title": "Install & Enable",
+        "steps.step1.desc": "Download KleanBox and follow the guided setup to enable SMS filtering in your iPhone settings.",
+        "steps.step2.title": "Set Your Rules",
+        "steps.step2.desc": "Create custom filters or let Smart Filtering do the work with community-driven definitions.",
+        "steps.step3.title": "Enjoy the Silence",
+        "steps.step3.desc": "Spam and promotions are filtered away. Important messages stay right where they belong.",
+        "privacy.title": "Your messages stay on your device",
+        "privacy.desc": "KleanBox processes everything locally using Apple\u2019s SMS filtering framework. No messages are ever sent to external servers. No accounts, no tracking, no data collection. Your privacy isn\u2019t a feature \u2014 it\u2019s the foundation.",
+        "cta.title": "Ready for a cleaner inbox?",
+        "cta.desc": "Free to download. No subscriptions. No sign-up required."
+    },
+    tr: {
+        "nav.features": "\u00D6zellikler",
+        "nav.howItWorks": "Nas\u0131l \u00C7al\u0131\u015F\u0131r",
+        "nav.privacy": "Gizlilik",
+        "nav.download": "\u0130ndir",
+        "hero.badge": "App Store\u2019da Mevcut",
+        "hero.title": 'SMS gelen kutunu<br><span class="gradient-text">geri al</span>',
+        "hero.sub": "KleanBox bilinmeyen g\u00F6ndericilerden gelen spam, promosyon ve istenmeyen mesajlar\u0131 filtreler. \u00D6zel kurallar ve ak\u0131ll\u0131 filtreleme gelen kutunuzu temiz tutar.",
+        "hero.downloadBtn": "iPhone i\u00E7in \u0130ndir",
+        "hero.learnMore": "Daha fazla bilgi",
+        "proof.onDevice": "Cihaz \u00FCzerinde i\u015Fleme",
+        "proof.categories": "Ak\u0131ll\u0131 kategori",
+        "proof.dataCollected": "Toplanan veri",
+        "features.label": "\u00D6zellikler",
+        "features.title": "G\u00FCr\u00FClt\u00FCy\u00FC filtrelemek i\u00E7in<br>ihtiyac\u0131n\u0131z olan her \u015Fey",
+        "features.desc": "\u0130stenmeyen mesajlar\u0131 gelen kutunuzdan uzak tutan g\u00FC\u00E7l\u00FC filtreleme ara\u00E7lar\u0131.",
+        "features.customRules.title": "\u00D6zel Kurallar",
+        "features.customRules.desc": "Anahtar kelime veya regex tabanl\u0131 filtre kurallar\u0131 olu\u015Fturun. Mesaj i\u00E7eri\u011Fi, g\u00F6nderen veya her ikisine g\u00F6re e\u015Fle\u015Ftirin.",
+        "features.smartFilter.title": "Ak\u0131ll\u0131 Filtreleme",
+        "features.smartFilter.desc": "Topluluk taraf\u0131ndan y\u00F6netilen filtre tan\u0131mlar\u0131, kurallar\u0131n\u0131z e\u015Fle\u015Fmedi\u011Finde mesajlar\u0131 otomatik olarak s\u0131n\u0131fland\u0131r\u0131r.",
+        "features.autoCategories.title": "Otomatik Kategoriler",
+        "features.autoCategories.desc": "Mesajlar otomatik olarak Spam, Promosyon, OTP ve \u0130\u015Flem kategorilerine ayr\u0131l\u0131r.",
+        "features.fullControl.title": "Tam Kontrol",
+        "features.fullControl.desc": "Kategorileri a\u00E7/kapat, kurallar\u0131 etkinle\u015Ftir veya devre d\u0131\u015F\u0131 b\u0131rak ve kaydetmeden \u00F6nce filtrelerin \u00F6nizlemesini g\u00F6r.",
+        "features.privacy.title": "Gizlilik \u00D6ncelikli",
+        "features.privacy.desc": "Her \u015Fey cihaz\u0131n\u0131zda yerel olarak \u00E7al\u0131\u015F\u0131r. Mesajlar\u0131n\u0131z asla telefonunuzdan \u00E7\u0131kmaz.",
+        "features.easySetup.title": "Kolay Kurulum",
+        "features.easySetup.desc": "Y\u00F6nlendirilmi\u015F kurulum, filtreyi birka\u00E7 dokunma ile etkinle\u015Ftirmenize yard\u0131mc\u0131 olur.",
+        "steps.label": "Nas\u0131l \u00C7al\u0131\u015F\u0131r",
+        "steps.title": "Dakikalar i\u00E7inde haz\u0131r",
+        "steps.desc": "Daha temiz bir SMS gelen kutusu i\u00E7in \u00FC\u00E7 basit ad\u0131m.",
+        "steps.step1.title": "Kur ve Etkinle\u015Ftir",
+        "steps.step1.desc": "KleanBox\u2019\u0131 indirin ve iPhone ayarlar\u0131n\u0131zda SMS filtrelemeyi etkinle\u015Ftirmek i\u00E7in y\u00F6nlendirilmi\u015F kurulumu takip edin.",
+        "steps.step2.title": "Kurallar\u0131n\u0131 Belirle",
+        "steps.step2.desc": "\u00D6zel filtreler olu\u015Fturun veya Ak\u0131ll\u0131 Filtreleme\u2019nin topluluk tabanl\u0131 tan\u0131mlarla i\u015Fi yapmas\u0131na izin verin.",
+        "steps.step3.title": "Sessizli\u011Fin Tad\u0131n\u0131 \u00C7\u0131kar",
+        "steps.step3.desc": "Spam ve promosyonlar filtrelenir. \u00D6nemli mesajlar tam olmas\u0131 gereken yerde kal\u0131r.",
+        "privacy.title": "Mesajlar\u0131n\u0131z cihaz\u0131n\u0131zda kal\u0131r",
+        "privacy.desc": "KleanBox, Apple\u2019\u0131n SMS filtreleme \u00E7er\u00E7evesini kullanarak her \u015Feyi yerel olarak i\u015Fler. Hi\u00E7bir mesaj harici sunuculara g\u00F6nderilmez. Hesap yok, takip yok, veri toplama yok. Gizlilik bir \u00F6zellik de\u011Fil \u2014 temeldir.",
+        "cta.title": "Daha temiz bir gelen kutusu i\u00E7in haz\u0131r m\u0131s\u0131n\u0131z?",
+        "cta.desc": "\u00DCcretsiz indirin. Abonelik yok. Kay\u0131t gerekmiyor."
+    }
+};
+
+function setLang(lang) {
+    document.documentElement.lang = lang;
+    localStorage.setItem('kb-lang', lang);
+
+    // Update toggle buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    // Update text content
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) el.textContent = i18n[lang][key];
+    });
+
+    // Update HTML content (for elements with <br> or <span>)
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+    });
+
+    // Update page title
+    document.title = lang === 'tr'
+        ? 'KleanBox - iPhone i\u00E7in SMS Spam Engelleyici'
+        : 'KleanBox - SMS Spam Blocker for iPhone';
+}
+
+// Language toggle click handlers
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+
+// Detect initial language: saved preference > browser language > english
+const saved = localStorage.getItem('kb-lang');
+const browserLang = navigator.language.startsWith('tr') ? 'tr' : 'en';
+setLang(saved || browserLang);
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
