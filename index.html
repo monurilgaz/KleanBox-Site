@@ -226,8 +226,10 @@
         .btn-secondary {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            padding: 14px 28px;
+            height: 54px;
+            padding: 0 28px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--white);
@@ -830,7 +832,7 @@ function setLang(lang) {
     });
 
     // Update App Store badges
-    var badgeLocale = lang === 'tr' ? 'tr' : 'en-us';
+    var badgeLocale = lang === 'tr' ? 'tr-TR' : 'en-us';
     document.querySelectorAll('.app-store-img').forEach(function(img) {
         img.src = 'https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/' + badgeLocale + '?size=250x83';
         img.alt = lang === 'tr' ? 'App Store\'dan İndir' : 'Download on the App Store';
