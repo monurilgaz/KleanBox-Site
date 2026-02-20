@@ -100,18 +100,61 @@
             transition: color 0.2s;
         }
         .nav-links a:hover { color: var(--white); }
-        .nav-app-store {
+        .app-store-btn {
             display: inline-flex;
             align-items: center;
-            transition: opacity 0.2s, transform 0.2s;
+            gap: 10px;
+            padding: 8px 18px;
+            background: #fff;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+            height: 54px;
+            min-width: 180px;
+            justify-content: center;
         }
-        .nav-app-store:hover {
-            opacity: 0.85;
-            transform: translateY(-1px);
+        .app-store-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
         }
-        .nav-app-store-img {
+        .app-store-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+            flex-shrink: 0;
+        }
+        .app-store-btn-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+        .app-store-btn-text .small {
+            font-size: 10px;
+            font-weight: 400;
+            color: #000;
+        }
+        .app-store-btn-text .big {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            letter-spacing: -0.3px;
+        }
+        .app-store-btn-nav {
             height: 36px;
-            display: block;
+            min-width: auto;
+            padding: 4px 14px;
+            gap: 7px;
+            border-radius: 8px;
+        }
+        .app-store-btn-nav svg {
+            width: 18px;
+            height: 18px;
+        }
+        .app-store-btn-nav .small {
+            font-size: 8px;
+        }
+        .app-store-btn-nav .big {
+            font-size: 13px;
         }
 
         /* ── Language toggle ── */
@@ -210,20 +253,6 @@
             justify-content: center;
             gap: 16px;
             flex-wrap: wrap;
-        }
-        .app-store-badge {
-            display: inline-block;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-        .app-store-badge:hover {
-            transform: translateY(-2px);
-            opacity: 0.85;
-        }
-        .app-store-badge img {
-            height: 54px;
-            width: 180px;
-            object-fit: fill;
-            display: block;
         }
         .btn-secondary {
             display: inline-flex;
@@ -559,8 +588,9 @@
                 <button class="lang-btn active" data-lang="en">EN</button>
             </div>
         </li>
-        <li><a href="https://apps.apple.com/app/kleanbox/id6759303859" class="nav-app-store">
-            <img class="nav-app-store-img app-store-img" src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+        <li><a href="https://apps.apple.com/app/kleanbox/id6759303859" class="app-store-btn app-store-btn-nav">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="app-store-btn-text"><span class="small" data-i18n="appstore.small">Download on the</span><span class="big" data-i18n="appstore.big">App Store</span></div>
         </a></li>
     </ul>
 </nav>
@@ -583,8 +613,9 @@
         KleanBox filters spam, promotions, and unwanted messages from unknown senders. Custom rules and smart filtering keep your inbox clean.
     </p>
     <div class="hero-actions reveal reveal-delay-4">
-        <a class="app-store-badge" href="https://apps.apple.com/app/kleanbox/id6759303859">
-            <img class="app-store-img" src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+        <a class="app-store-btn" href="https://apps.apple.com/app/kleanbox/id6759303859">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="app-store-btn-text"><span class="small" data-i18n="appstore.small">Download on the</span><span class="big" data-i18n="appstore.big">App Store</span></div>
         </a>
         <a class="btn-secondary" href="#features" data-i18n="hero.learnMore">Learn more</a>
     </div>
@@ -697,8 +728,9 @@
     <h2 class="reveal" data-i18n="cta.title">Ready for a cleaner inbox?</h2>
     <p class="reveal reveal-delay-1" data-i18n="cta.desc">Free to download. No subscriptions. No sign-up required.</p>
     <div class="reveal reveal-delay-2">
-        <a class="app-store-badge" href="https://apps.apple.com/app/kleanbox/id6759303859">
-            <img class="app-store-img" src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+        <a class="app-store-btn" href="https://apps.apple.com/app/kleanbox/id6759303859">
+            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div class="app-store-btn-text"><span class="small" data-i18n="appstore.small">Download on the</span><span class="big" data-i18n="appstore.big">App Store</span></div>
         </a>
     </div>
 </section>
@@ -738,6 +770,8 @@ const i18n = {
         "hero.title": 'Take back your<br><span class="gradient-text">SMS inbox</span>',
         "hero.sub": "KleanBox filters spam, promotions, and unwanted messages from unknown senders. Custom rules and smart filtering keep your inbox clean.",
         "hero.learnMore": "Learn more",
+        "appstore.small": "Download on the",
+        "appstore.big": "App Store",
         "proof.onDevice": "On-device processing",
         "proof.categories": "Smart categories",
         "proof.dataCollected": "Data collected",
@@ -779,6 +813,8 @@ const i18n = {
         "hero.title": 'SMS gelen kutunu<br><span class="gradient-text">geri al</span>',
         "hero.sub": "KleanBox bilinmeyen g\u00F6ndericilerden gelen spam, promosyon ve istenmeyen mesajlar\u0131 filtreler. \u00D6zel kurallar ve ak\u0131ll\u0131 filtreleme gelen kutunuzu temiz tutar.",
         "hero.learnMore": "Daha fazla bilgi",
+        "appstore.small": "App Store'dan",
+        "appstore.big": "\u0130ndirin",
         "proof.onDevice": "Cihaz \u00FCzerinde i\u015Fleme",
         "proof.categories": "Ak\u0131ll\u0131 kategori",
         "proof.dataCollected": "Toplanan veri",
@@ -832,13 +868,6 @@ function setLang(lang) {
     document.querySelectorAll('[data-i18n-html]').forEach(el => {
         const key = el.getAttribute('data-i18n-html');
         if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
-    });
-
-    // Update App Store badges
-    var badgeLocale = lang === 'tr' ? 'tr-TR' : 'en-us';
-    document.querySelectorAll('.app-store-img').forEach(function(img) {
-        img.src = 'https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/' + badgeLocale + '?size=250x83';
-        img.alt = lang === 'tr' ? 'App Store\'dan İndir' : 'Download on the App Store';
     });
 
     // Update page title
