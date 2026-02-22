@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — KleanBox</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <style>
+        :root {
+            --color-bg: #ffffff;
+            --color-text: #1a1a1a;
+            --color-muted: #6b7280;
+            --color-accent: #2563eb;
+            --color-border: #e5e7eb;
+            --color-surface: #f9fafb;
+            --max-width: 720px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            color: var(--color-text);
+            background: var(--color-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        header {
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--color-muted);
+            font-size: 15px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.2px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        ul {
+            margin: 8px 0 16px 24px;
+            font-size: 16px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight-box {
+            background: var(--color-surface);
+            border-left: 3px solid var(--color-accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            font-size: 15px;
+        }
+
+        footer {
+            margin-top: 56px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 32px 16px 64px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            p, ul {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>KleanBox Privacy Policy</h1>
+        </header>
+
+        <section>
+            <h2>Introduction</h2>
+            <p>KleanBox is an iOS app that filters unwanted SMS and MMS messages on your device. It uses Apple's IdentityLookup framework to classify messages locally — your messages never leave your device.</p>
+            <p>This policy explains what data KleanBox collects, what it does not collect, and how any collected data is handled.</p>
+        </section>
+
+        <section>
+            <h2>Information We Collect</h2>
+            <p>KleanBox collects a minimal amount of non-personal data to maintain app stability and improve the experience:</p>
+            <ul>
+                <li><strong>Crash reports</strong> — via Firebase Crashlytics. This includes device model, OS version, and crash stack traces. No personally identifiable information (PII) is included.</li>
+                <li><strong>Anonymous analytics</strong> — via TelemetryDeck. We track rule-related events (such as adding, updating, deleting, or toggling a filter rule) along with rule metadata like pattern type, category, and match field. TelemetryDeck is privacy-first and does not collect PII. All signals are anonymous and cannot be traced back to individual users.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Information We Do NOT Collect</h2>
+            <div class="highlight-box">
+                <p>KleanBox does not collect, store, transmit, or have access to the content of your messages. All message filtering happens entirely on your device.</p>
+            </div>
+            <p>Specifically, we do not collect:</p>
+            <ul>
+                <li>Message content, sender information, or phone numbers</li>
+                <li>Personal information such as your name, email, or address</li>
+                <li>Location data</li>
+                <li>Contacts or call history</li>
+                <li>Browsing or usage history outside the app</li>
+            </ul>
+            <p>KleanBox has no user accounts, no sign-in, and no authentication of any kind.</p>
+        </section>
+
+        <section>
+            <h2>On-Device Processing</h2>
+            <p>All SMS and MMS filtering is performed locally on your device using Apple's ILMessageFilterExtension. Filter rules you create and the on-device machine learning model both operate entirely offline. No message data is ever sent to any external server.</p>
+            <p>KleanBox uses the iOS Keychain and App Groups to securely share your filter rules between the main app and the message filter extension. This data stays on your device.</p>
+        </section>
+
+        <section>
+            <h2>Third-Party Services</h2>
+            <p>KleanBox integrates two third-party services, both of which are designed with privacy in mind:</p>
+            <ul>
+                <li><strong>Firebase Crashlytics</strong> — used for crash reporting and app stability monitoring. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy Policy</a></li>
+                <li><strong>TelemetryDeck</strong> — used for privacy-friendly, anonymous analytics. TelemetryDeck is GDPR-compliant by design and does not collect personal data. <a href="https://telemetrydeck.com/privacy" target="_blank" rel="noopener">TelemetryDeck Privacy Policy</a></li>
+            </ul>
+            <p>KleanBox does not use any third-party advertising services.</p>
+        </section>
+
+        <section>
+            <h2>Data Retention</h2>
+            <p>Crash reports are retained by Firebase Crashlytics for 90 days. Anonymous analytics signals are retained by TelemetryDeck according to their data retention policy. Since no personal data is collected, there is no personal data to delete.</p>
+            <p>Filter rules and preferences are stored locally on your device and are removed when you uninstall the app.</p>
+        </section>
+
+        <section>
+            <h2>Children's Privacy</h2>
+            <p>KleanBox does not knowingly collect any personal information from anyone, including children under the age of 13. Since the app does not collect personal data, it is safe for use by people of all ages.</p>
+        </section>
+
+        <section>
+            <h2>Changes to This Policy</h2>
+            <p>We may update this privacy policy from time to time. Any changes will be posted on this page with a revised effective date. We encourage you to review this policy periodically.</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <p>If you have any questions or concerns about this privacy policy or KleanBox's data practices, contact us at:</p>
+            <p><a href="mailto:support@kleanbox.app">support@kleanbox.app</a></p>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 KleanBox. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
