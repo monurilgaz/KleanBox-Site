@@ -134,69 +134,87 @@
     <div class="container">
         <header>
             <h1>KleanBox Privacy Policy</h1>
+            <p>Last updated: September 5, 2026</p>
         </header>
 
         <section>
             <h2>Introduction</h2>
-            <p>KleanBox is an iOS app that filters unwanted SMS and MMS messages on your device. It uses Apple's IdentityLookup framework to classify messages locally — your messages never leave your device.</p>
-            <p>This policy explains what data KleanBox collects, what it does not collect, and how any collected data is handled.</p>
+            <p>KleanBox is an iOS app that filters unwanted SMS and MMS messages. It uses Apple's IdentityLookup framework to classify messages on your device. By default, nothing about your messages leaves your device. Two optional features described below send message data to KleanBox, and both stay off until you turn them on.</p>
+            <p>This policy explains what KleanBox collects by default, what each optional feature sends, what we never collect, and how any collected data is handled.</p>
         </section>
 
         <section>
-            <h2>Information We Collect</h2>
-            <p>KleanBox collects a minimal amount of non-personal data to maintain app stability and improve the experience:</p>
+            <h2>What KleanBox Collects by Default</h2>
+            <p>KleanBox collects a minimal amount of non-personal data to keep the app stable and to understand how its features are used:</p>
             <ul>
-                <li><strong>Crash reports</strong> — via Firebase Crashlytics. This includes device model, OS version, and crash stack traces. No personally identifiable information (PII) is included.</li>
-                <li><strong>Anonymous analytics</strong> — via TelemetryDeck. We track rule-related events (such as adding, updating, deleting, or toggling a filter rule) along with rule metadata like pattern type, category, and match field. TelemetryDeck is privacy-first and does not collect PII. All signals are anonymous and cannot be traced back to individual users.</li>
+                <li><strong>Crash reports</strong> — via Firebase Crashlytics. This includes device model, OS version and crash stack traces. No message content and no personally identifiable information is included.</li>
+                <li><strong>Anonymous usage analytics</strong> — via TelemetryDeck. We record product events such as a rule being added, edited, toggled or deleted, a rule pack being installed, or a setting being switched, together with non-identifying attributes like the rule type (word or regex), its category and match field, and counts. The text of your rules, your safe senders and your messages are never part of these signals. TelemetryDeck identifies devices only by a salted hash that cannot be reversed.</li>
+                <li><strong>Filter definition updates</strong> — the app periodically downloads a public definitions file over HTTPS so new spam wording is covered without an app update. This is an ordinary file download; no data about you or your messages is sent with it.</li>
             </ul>
+        </section>
+
+        <section>
+            <h2>Optional Features That Send Message Data</h2>
+            <p>Both features are off by default. Each is a switch in KleanBox &rsaquo; Settings, and each explains what it sends before you turn it on.</p>
+            <h3 style="font-size:17px;font-weight:600;margin:16px 0 8px">Share Reported Messages</h3>
+            <p>When this is on and you report a filtered message as junk inside Messages, KleanBox sends that message to our server so the same campaign can be blocked for everyone. What is sent: the sender (up to 128 characters), the message text (up to 1,000 characters), the app version and the country or region set on your device. No name, phone number of yours, account, contact list or device identifier is attached, and we cannot tell who sent a report.</p>
+            <p>Only messages you personally report are sent. Reports are stored aggregated by message, with a count of how often that message was reported, and are used solely to build and improve KleanBox's filter definitions and rule packs.</p>
+            <h3 style="font-size:17px;font-weight:600;margin:16px 0 8px">Check Unknown Messages Online</h3>
+            <p>When this is on and a message from an unknown sender cannot be classified by your rules, your safe senders or the built-in definitions, iOS sends the sender and message text to our server, which compares it against messages other people have reported and answers whether it looks like junk. This uses Apple's network-filtering mechanism for message filter apps. Messages your device can already classify are never sent. Lookups are read-only: the server does not store the messages it is asked about.</p>
+        </section>
+
+        <section>
+            <h2>iCloud Sync (Optional)</h2>
+            <p>If you turn on iCloud sync, your filter rules and safe senders are stored in the iCloud key-value store attached to your Apple Account so they stay the same on all your devices. This data is handled by Apple under <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple's privacy policy</a>; KleanBox has no access to it. Message content is never synced.</p>
         </section>
 
         <section>
             <h2>Information We Do NOT Collect</h2>
             <div class="highlight-box">
-                <p>KleanBox does not collect, store, transmit, or have access to the content of your messages. All message filtering happens entirely on your device.</p>
+                <p>Unless you turn on one of the two optional features above, KleanBox does not collect, store or transmit the content of your messages. All message filtering happens on your device.</p>
             </div>
-            <p>Specifically, we do not collect:</p>
+            <p>In every case, we do not collect:</p>
             <ul>
-                <li>Message content, sender information, or phone numbers</li>
-                <li>Personal information such as your name, email, or address</li>
-                <li>Location data</li>
+                <li>Your name, email address, phone number or postal address</li>
+                <li>Your location (the region code sent with a shared report is the country set in your device settings, not a location)</li>
                 <li>Contacts or call history</li>
+                <li>The text of your filter rules or your safe sender list</li>
                 <li>Browsing or usage history outside the app</li>
             </ul>
-            <p>KleanBox has no user accounts, no sign-in, and no authentication of any kind.</p>
+            <p>KleanBox has no user accounts, no sign-in and no authentication of any kind, and does not use advertising or tracking SDKs.</p>
         </section>
 
         <section>
             <h2>On-Device Processing</h2>
-            <p>All SMS and MMS filtering is performed locally on your device using Apple's ILMessageFilterExtension. Filter rules you create and the on-device machine learning model both operate entirely offline. No message data is ever sent to any external server.</p>
-            <p>KleanBox uses the iOS Keychain and App Groups to securely share your filter rules between the main app and the message filter extension. This data stays on your device.</p>
+            <p>SMS and MMS filtering is performed on your device by KleanBox's message filter extension using Apple's ILMessageFilterExtension. Your rules, safe senders and the built-in filter definitions all run locally, whether or not you have a network connection.</p>
+            <p>KleanBox uses the iOS Keychain and App Groups to share your filter rules and settings between the main app and its extensions. This data stays on your device unless you turn on iCloud sync.</p>
         </section>
 
         <section>
             <h2>Third-Party Services</h2>
-            <p>KleanBox integrates two third-party services, both of which are designed with privacy in mind:</p>
             <ul>
-                <li><strong>Firebase Crashlytics</strong> — used for crash reporting and app stability monitoring. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy Policy</a></li>
-                <li><strong>TelemetryDeck</strong> — used for privacy-friendly, anonymous analytics. TelemetryDeck is GDPR-compliant by design and does not collect personal data. <a href="https://telemetrydeck.com/privacy" target="_blank" rel="noopener">TelemetryDeck Privacy Policy</a></li>
+                <li><strong>Firebase Crashlytics</strong> — crash reporting. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Privacy Policy</a></li>
+                <li><strong>TelemetryDeck</strong> — anonymous, privacy-first analytics, GDPR-compliant by design. <a href="https://telemetrydeck.com/privacy" target="_blank" rel="noopener">TelemetryDeck Privacy Policy</a></li>
+                <li><strong>Cloudflare</strong> — hosts the KleanBox report and lookup service used by the two optional features. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Privacy Policy</a></li>
             </ul>
             <p>KleanBox does not use any third-party advertising services.</p>
         </section>
 
         <section>
             <h2>Data Retention</h2>
-            <p>Crash reports are retained by Firebase Crashlytics for 90 days. Anonymous analytics signals are retained by TelemetryDeck according to their data retention policy. Since no personal data is collected, there is no personal data to delete.</p>
-            <p>Filter rules and preferences are stored locally on your device and are removed when you uninstall the app.</p>
+            <p>Crash reports are retained by Firebase Crashlytics for 90 days. Anonymous analytics signals are retained by TelemetryDeck according to their retention policy.</p>
+            <p>Shared junk reports are kept for as long as they are useful for building filter definitions. Because no identifier links a report to you, we cannot look up reports by person; if you want a specific message you reported removed, contact us with its text and we will delete it. Online lookups are not stored.</p>
+            <p>Filter rules, safe senders and preferences are stored on your device and are removed when you uninstall the app. Data you chose to sync to iCloud remains in your iCloud account until you turn sync off and delete it, or delete it through iOS Settings.</p>
         </section>
 
         <section>
             <h2>Children's Privacy</h2>
-            <p>KleanBox does not knowingly collect any personal information from anyone, including children under the age of 13. Since the app does not collect personal data, it is safe for use by people of all ages.</p>
+            <p>KleanBox does not knowingly collect personal information from anyone, including children under the age of 13. The optional sharing features send only the content of messages you choose to report and carry no identifying information.</p>
         </section>
 
         <section>
             <h2>Changes to This Policy</h2>
-            <p>We may update this privacy policy from time to time. Any changes will be posted on this page with a revised effective date. We encourage you to review this policy periodically.</p>
+            <p>We may update this privacy policy from time to time. Any changes will be posted on this page with a revised date. We encourage you to review this policy periodically.</p>
         </section>
 
         <section>
